@@ -1,76 +1,127 @@
-(function($) {
-  var toggle = document.getElementById("menu-toggle");
-  var menu = document.getElementById("menu");
-  var close = document.getElementById("menu-close");
+$(document).ready(function(){
+	"use strict";
+    
+        /*==================================
+* Author        : "ThemeSine"
+* Template Name : Khanas HTML Template
+* Version       : 1.0
+==================================== */
 
-  toggle.addEventListener("click", function(e) {
-    if (menu.classList.contains("open")) {
-      menu.classList.remove("open");
-    } else {
-      menu.classList.add("open");
-    }
-  });
 
-  close.addEventListener("click", function(e) {
-    menu.classList.remove("open");
-  });
 
-  // Close menu after click on smaller screens
-  $(window).on("resize", function() {
-    if ($(window).width() < 846) {
-      $(".main-menu a").on("click", function() {
-        menu.classList.remove("open");
-      });
-    }
-  });
+/*=========== TABLE OF CONTENTS ===========
+1. Scroll To Top 
+2. Smooth Scroll spy
+3. Progress-bar
+4. owl carousel
+5. welcome animation support
+======================================*/
 
-  $(".owl-carousel").owlCarousel({
-    items: 4,
-    lazyLoad: true,
-    loop: true,
-    dots: true,
-    margin: 30,
-    responsiveClass: true,
-    responsive: {
-      0: {
-        items: 1
-      },
-      600: {
-        items: 1
-      },
-      1000: {
-        items: 1
-      }
-    }
-  });
+    // 1. Scroll To Top 
+		$(window).on('scroll',function () {
+			if ($(this).scrollTop() > 600) {
+				$('.return-to-top').fadeIn();
+			} else {
+				$('.return-to-top').fadeOut();
+			}
+		});
+		$('.return-to-top').on('click',function(){
+				$('html, body').animate({
+				scrollTop: 0
+			}, 1500);
+			return false;
+		});
+	
+	
+	
+	// 2. Smooth Scroll spy
+		
+		$('.header-area').sticky({
+           topSpacing:0
+        });
+		
+		//=============
 
-  $(".hover").mouseleave(function() {
-    $(this).removeClass("hover");
-  });
+		$('li.smooth-menu a').bind("click", function(event) {
+			event.preventDefault();
+			var anchor = $(this);
+			$('html, body').stop().animate({
+				scrollTop: $(anchor.attr('href')).offset().top - 0
+			}, 1200,'easeInOutExpo');
+		});
+		
+		$('body').scrollspy({
+			target:'.navbar-collapse',
+			offset:0
+		});
 
-  $(".isotope-wrapper").each(function() {
-    var $isotope = $(".isotope-box", this);
-    var $filterCheckboxes = $('input[type="radio"]', this);
+	// 3. Progress-bar
+	
+		var dataToggleTooTip = $('[data-toggle="tooltip"]');
+		var progressBar = $(".progress-bar");
+		if (progressBar.length) {
+			progressBar.appear(function () {
+				dataToggleTooTip.tooltip({
+					trigger: 'manual'
+				}).tooltip('show');
+				progressBar.each(function () {
+					var each_bar_width = $(this).attr('aria-valuenow');
+					$(this).width(each_bar_width + '%');
+				});
+			});
+		}
+	
+	// 4. owl carousel
+	
+		// i. client (carousel)
+		
+			$('#client').owlCarousel({
+				items:7,
+				loop:true,
+				smartSpeed: 1000,
+				autoplay:true,
+				dots:false,
+				autoplayHoverPause:true,
+				responsive:{
+						0:{
+							items:2
+						},
+						415:{
+							items:2
+						},
+						600:{
+							items:4
 
-    var filter = function() {
-      var type = $filterCheckboxes.filter(":checked").data("type") || "*";
-      if (type !== "*") {
-        type = '[data-type="' + type + '"]';
-      }
-      $isotope.isotope({ filter: type });
-    };
+						},
+						1199:{
+							items:4
+						},
+						1200:{
+							items:7
+						}
+					}
+				});
+				
+				
+				$('.play').on('click',function(){
+					owl.trigger('play.owl.autoplay',[1000])
+				})
+				$('.stop').on('click',function(){
+					owl.trigger('stop.owl.autoplay')
+				})
 
-    $isotope.isotope({
-      itemSelector: ".isotope-item",
-      layoutMode: "masonry"
-    });
 
-    $(this).on("change", filter);
-    filter();
-  });
+    // 5. welcome animation support
 
-  lightbox.option({
-    resizeDuration: 200,
-    wrapAround: true
-  });
-})(jQuery);
+        $(window).load(function(){
+        	$(".header-text h2,.header-text p").removeClass("animated fadeInUp").css({'opacity':'0'});
+            $(".header-text a").removeClass("animated fadeInDown").css({'opacity':'0'});
+        });
+
+        $(window).load(function(){
+        	$(".header-text h2,.header-text p").addClass("animated fadeInUp").css({'opacity':'0'});
+            $(".header-text a").addClass("animated fadeInDown").css({'opacity':'0'});
+        });
+
+});	
+	

@@ -17,13 +17,11 @@
   });
 
 
-	var fullHeight = function() {
-
-		$('.js-fullheight').css('height', $(window).height());
-		$(window).resize(function(){
-			$('.js-fullheight').css('height', $(window).height());
-		});
-
+  var fullHeight = function() {
+    $('.js-fullheight').css('min-height', $(window).height());
+    $(window).resize(function(){
+        $('.js-fullheight').css('min-height', $(window).height());
+    });
 	};
 	fullHeight();
 
@@ -85,26 +83,13 @@
 
 	var carousel = function() {
 		$('.home-slider').owlCarousel({
-	    loop:true,
-	    autoplay: true,
-	    margin:0,
-	    animateOut: 'fadeOut',
-	    animateIn: 'fadeIn',
-	    nav:false,
-	    autoplayHoverPause: false,
-	    items: 1,
-	    navText : ["<span class='ion-md-arrow-back'></span>","<span class='ion-chevron-right'></span>"],
-	    responsive:{
-	      0:{
-	        items:1
-	      },
-	      600:{
-	        items:1
-	      },
-	      1000:{
-	        items:1
-	      }
-	    }
+			loop: false, // Disable looping
+			autoplay: false, // Disable autoplay
+			items: 1,
+			mouseDrag: false, // Disable dragging with mouse
+			touchDrag: false, // Disable touch swipe on mobile
+			pullDrag: false, // Disable drag event altogether
+			freeDrag: false // Ensure no free dragging happens
 		});
 	};
 	carousel();
